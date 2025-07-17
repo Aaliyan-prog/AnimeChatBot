@@ -8,6 +8,19 @@ const userData = {
   message: null
 }
 
+const generateResponseByTags = (tag, message, div) => {
+  switch (tag) {
+    case '/Character':
+      generateBotResponse(message, div);
+      break;
+    case '/Anime':
+      generateAnimeResponse();
+      break;
+    default:
+      break;
+  }  
+}
+
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div")
   div.classList.add("message", ...classes)
@@ -17,7 +30,11 @@ const createMessageElement = (content, ...classes) => {
 
 const handleOutGoingMessage = (e) => {
   e.preventDefault();
-  userData.message = messageInput.value.trim();
+  const InputMessage = messageInput.value.trim();
+  const message = InputMessage.split(':');
+  userData.message = message[1];
+  const Tags = message[0];
+  console.log(userData.message, message);
   messageInput.value = "";
 
   const messageContent =  `<div class="message-text"></div>`;
@@ -28,7 +45,8 @@ const handleOutGoingMessage = (e) => {
   setTimeout(() => {
     let incomingMessageDiv = ``;
     setTimeout(() => {
-      generateBotResponse(userData.message, incomingMessageDiv);
+      generateResponseByTags(Tags, userData.message, incomingMessageDiv)
+      // generateBotResponse(userData.message, incomingMessageDiv);
     }, 5000)
     const messageContent = `<svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1024 1024">
           <path
@@ -68,11 +86,13 @@ const generateBotResponse = async (userMessage, thinking) => {
   try {
     thinking.remove();
     const botResponse = createMessageElement(botResponseHTML, "message", "bot-message");
-    chatBody.appendChild(botResponse)
+    chatBody.appendChild(botResponse);
   } catch (error) {
-    console.log(error, "failed to gemerate bot response")
+    console.log(error, "failed to gemerate bot response");
   }
 }
+
+const generateAnimeResponse = () => {}
 
 messageInput.addEventListener("keydown", (e) => {
   const userMessage = e.target.value.trim();

@@ -235,3 +235,15 @@ body {
 .chat-form .chat-controls button:hover{
   background: #f1f1ff;
 }
+
+.character-span{
+  background-color: #ffff00;
+  color: #000;
+  font-weight: bold;
+}
+
+.anime-span{
+  background-color: #ffff00;
+  color: #000;
+  font-weight: bold;
+}
